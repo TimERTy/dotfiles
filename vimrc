@@ -2,7 +2,9 @@
 "" Author: TimERTy
 "
 "Colorscheme
+set background=dark
 color elflord
+hi SpecialChar ctermfg=lightRed
 "
 "Line Numbers
 set number
@@ -20,7 +22,7 @@ set expandtab
 set smarttab
 set softtabstop=0
 "
-"Movement
+"Movement between windows
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
@@ -30,7 +32,7 @@ nnoremap <C-l> <C-w>l
 set incsearch
 set hlsearch
 "
-"
+"Efficiency
 set lazyredraw
 "
 "Rm error Sound
@@ -41,10 +43,13 @@ set tm=500
 "
 "Cursor
 set cursorline
+highlight CursorLine cterm=none ctermfg=None ctermbg=darkgray guibg=darkgrey guifg=none
 "
 "Mapping
 nmap <F2> :w<CR>
 imap <F2> <ESC>:w<CR>i
+ino #i #include 
+ino #d #define 
 "
 "Brackets
 ino " ""<left>
@@ -52,4 +57,4 @@ ino ' ''<left>
 ino ( ()<left>
 ino [ []<left>
 ino { {}<left>
-ino {<CR> {<CR>}<ESC>O"""
+ino {<CR> {<CR>}<ESC>O
