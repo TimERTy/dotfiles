@@ -42,7 +42,7 @@ set tm=500
 "
 "Cursor
 set cursorline
-highlight CursorLine cterm=none ctermfg=None ctermbg=darkgrey guibg=Dark guifg=white
+highlight CursorLine cterm=none ctermfg=None ctermbg=darkgrey
 "
 "Mapping
 nmap <F2> :w<CR>
