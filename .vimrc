@@ -16,9 +16,10 @@ filetype indent on
 "
 "Folding
 set foldenable
-set foldmethod=indent
+set foldmethod=syntax
 set foldlevelstart=10
 set foldnestmax=10
+nno <space> za
 "
 "Tabbing
 set tabstop=8
@@ -63,3 +64,16 @@ ino ( ()<left>
 ino [ []<left>
 ino { {}<left>
 ino {<CR> {<CR>}<ESC>O
+"
+" toggle between number and relativenumber
+function! ToggleNumber()
+    if(&relativenumber == 1)
+        set norelativenumber
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+
+ino <F3> <ESC>:call ToggleNumber()<CR>i
+nno <F3> :call ToggleNumber()<CR>
