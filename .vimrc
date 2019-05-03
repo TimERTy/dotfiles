@@ -14,6 +14,12 @@ set smartindent
 set autoindent
 filetype indent on
 "
+"Folding
+set foldenable
+set foldmethod=indent
+set foldlevelstart=10
+set foldnestmax=10
+"
 "Tabbing
 set tabstop=8
 set shiftwidth=4
