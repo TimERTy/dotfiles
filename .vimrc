@@ -64,8 +64,14 @@ ino ( ()<left>
 ino [ []<left>
 ino { {}<left>
 ino {<CR> {<CR>}<ESC>O
+" to minimise unwanted insertion
+ino "" ""
+ino '' ''
+ino () ()
+ino [] []
+ino {} {}
 "
-" toggle between number and relativenumber
+"Toggle between number and relativenumber
 function! ToggleNumber()
     if(&relativenumber == 1)
         set norelativenumber
@@ -77,3 +83,26 @@ endfunc
 
 ino <F3> <ESC>:call ToggleNumber()<CR>i
 nno <F3> :call ToggleNumber()<CR>
+"
+"Stop accidnetly holding down <SHIFT> 
+command W w
+command Wq wq
+command Q q
+"
+"Skeleton Files
+"       Bash
+if has("autocmd")
+  augroup templates
+    autocmd BufNewFile *.sh 0r ~/.vim/templates/skeleton.sh
+"    autocmd BufNewFile *.js 0r ~/.vim/templates/skeleton.js
+"    autocmd BufNewFile *.c 0r ~/.vim/templates/skeleton.c
+"    autocmd BufNewFile *.cpp 0r ~/.vim/templates/skeleton.cpp
+"    autocmd BufNewFile *.java 0r ~/.vim/templates/skeleton.java
+  augroup END
+endif
+"
+"Negative Reinforcment
+nnoremap <Left> :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up> :echoe "Use k"<CR>
+nnoremap <Down> :echoe "Use j"<CR>
