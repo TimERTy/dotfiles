@@ -22,5 +22,8 @@ ln -s $DOT_DIR/.vimrc ~/
 
 rm -rf ~/.zprezto/modules/prompt/functions/prompt_timerty_setup
 ln -s $DOT_DIR/prompt_timerty_setup ~/.zprezto/modules/prompt/functions/
+
+rm -rf ~/.config/kglobalshortcutsrc
+ln -s $DOT_DIR/kglobalshortcutsrc ~/.config/
 )
 
