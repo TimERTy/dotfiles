@@ -11,11 +11,13 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
-prompt powerlevel9k
+if [ -f ~/.sh_aliases ]; then
+    . ~/.sh_aliases
+fi
 
-#if [[ -s "${ZDOTDIR:-$HOME}/.zsh_aliases" ]]; then
-#  source "${ZDOTDIR:-$HOME}/.zsh_aliases"
-#fi
+if [ -f ~/.shrc ]; then
+    . ~/.shrc
+fi
 
 source ~/.commonrc
 

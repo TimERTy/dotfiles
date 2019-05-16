@@ -57,19 +57,19 @@ imap <F2> <ESC>:w<CR>i
 ino #i #include 
 ino #d #define 
 "
-"Brackets
-ino " ""<left>
-ino ' ''<left>
-ino ( ()<left>
-ino [ []<left>
-ino { {}<left>
-ino {<CR> {<CR>}<ESC>O
-" to minimise unwanted insertion
-ino "" ""
-ino '' ''
-ino () ()
-ino [] []
-ino {} {}
+""Brackets
+"ino " ""<left>
+"ino ' ''<left>
+"ino ( ()<left>
+"ino [ []<left>
+"ino { {}<left>
+"ino {<CR> {<CR>}<ESC>O
+"" to minimise unwanted insertion
+"ino "" ""
+"ino '' ''
+"ino () ()
+"ino [] []
+"ino {} {}
 "
 "Toggle between number and relativenumber
 function! ToggleNumber()
@@ -107,3 +107,22 @@ nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
+"
+"GoldenView
+set runtimepath^=~/.vim/bundle/GoldenView.Vim
+" 1. split to tiled windows
+nmap <silent> <C-L>  <Plug>GoldenViewSplit
+
+" 2. quickly switch current window with the main pane
+" and toggle back
+nmap <silent> <F8>   <Plug>GoldenViewSwitchMain
+nmap <silent> <S-F8> <Plug>GoldenViewSwitchToggle
+
+" 3. jump to next and previous window
+nmap <silent> <C-N>  <Plug>GoldenViewNext
+nmap <silent> <C-P>  <Plug>GoldenViewPrevious
+"
+"ParEdit
+set runtimepath^=~/.vim/bundle/paredit.vim
+au FileType * call PareditInitBuffer()
+
