@@ -123,3 +123,5 @@ nmap <silent> <C-P>  <Plug>GoldenViewPrevious
 "
 "ParEdit
 set runtimepath^=~/.vim/bundle/paredit.vim
+au FileType * call PareditInitBuffer()
+
