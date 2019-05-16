@@ -17,3 +17,5 @@ prompt powerlevel9k
 #  source "${ZDOTDIR:-$HOME}/.zsh_aliases"
 #fi
 
+source ~/.commonrc
+

@@ -29,10 +29,10 @@ set smarttab
 set softtabstop=0
 "
 "Movement
-nnoremap <C-j> :tabfirst
-nnoremap <C-k> :tablast
-nnoremap <C-h> :tabp
-nnoremap <C-l> :tabn
+nnoremap <C-j> :tabfirst<CR>
+nnoremap <C-k> :tablast<CR>
+nnoremap <C-h> :tabp<CR>
+nnoremap <C-l> :tabn<CR>
 "
 "Search
 set incsearch
@@ -85,9 +85,10 @@ ino <F3> <ESC>:call ToggleNumber()<CR>i
 nno <F3> :call ToggleNumber()<CR>
 "
 "Stop accidnetly holding down <SHIFT> 
-command W w
-command Wq wq
-command Q q
+command! W w
+command! Wq wq
+command! Q q
+command! Write w !sudo tee % > /dev/null
 "
 "Skeleton Files
 "       Bash
