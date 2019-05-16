@@ -18,5 +18,9 @@ if [[ -e ~/.config/kglobalshortcutsrc ]]; then
     rm -rf ~/.config/kglobalshortcutsrc
     ln -sf $DOT_DIR/kglobalshortcutsrc ~/.config/
 fi
+
+cd ~/.vim/bundle/
+git clone https://github.com/vim-scripts/paredit.vim.git
+git clone https://github.com/zhaocai/GoldenView.Vim.git
 )
 
