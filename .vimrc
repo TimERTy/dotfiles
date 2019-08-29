@@ -16,7 +16,7 @@ filetype indent on
 "
 "Folding
 set foldenable
-set foldmethod=syntax
+set foldmethod=indent
 set foldlevelstart=10
 set foldnestmax=10
 nno <space> za
@@ -125,4 +125,19 @@ nmap <silent> <C-P>  <Plug>GoldenViewPrevious
 "ParEdit
 set runtimepath^=~/.vim/bundle/paredit.vim
 au FileType * call PareditInitBuffer()
-
+"
+"Prettier
+set runtimepath^=~/.vim/bundle/vim-prettier
+" max line length that prettier will wrap on
+let g:prettier#config#print_width = 130
+" number of spaces per indentation level
+let g:prettier#config#tab_width = 4
+" put > on the last line instead of new line
+let g:prettier#config#jsx_bracket_same_line = 'true'
+" always|never|preserve
+let g:prettier#config#prose_wrap = 'preserve'
+" css|strict|ignore
+let g:prettier#config#html_whitespace_sensitivity = 'css'
+" auto format on write
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
