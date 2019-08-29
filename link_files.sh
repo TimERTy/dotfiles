@@ -14,16 +14,6 @@ if [[ -d ~/.zprezto ]]; then
     ln -sf $DOT_DIR/prompt_timerty_setup ~/.zprezto/modules/prompt/functions/
 fi
 
-if [[ -e ~/.config/kglobalshortcutsrc ]]; then
-    rm -rf ~/.config/kglobalshortcutsrc
-    ln -sf $DOT_DIR/kglobalshortcutsrc ~/.config/
-fi
-
-if [[ -d ~/.local/share/kxmlgui5/konsole ]]; then
-    rm -rf ~/.local/share/kxmlgui5/konsole
-    ln -sf $DOT_DIR/konsole ~/.local/share/kxmlgui5/
-fi
-
 cd ~/.vim/bundle/
 git clone https://github.com/vim-scripts/paredit.vim.git || (cd paredit.vim; git pull)
 git clone https://github.com/zhaocai/GoldenView.Vim.git || (cd GoldenView.Vim; git pull)
