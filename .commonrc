@@ -1,7 +1,0 @@
-export ANDROID_HOME="/home/wm-admin/Android/Sdk/"
-export PATH=$PATH:/home/wm-admin/Android/Sdk/platform-tools
-export PATH=$PATH:/home/wm-admin/Android/Sdk/tools
-
-alias setJava8="sudo update-alternatives --config java <<< $'2' && sudo update-alternatives --config javac <<< $'2'"
-alias setJava11="sudo update-alternatives --config java <<< $'0' && sudo update-alternatives --config javac <<< $'0'"
-

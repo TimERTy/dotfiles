@@ -2,12 +2,17 @@
 "" Author: TimERTy
 "
 "Colorscheme
+set t_Co=256
 color elflord
 set background=dark
 "
 "Line Numbers
 set number
 highlight lineNr ctermfg=white
+"
+"Cursor
+set cursorline
+highlight CursorLine cterm=none ctermfg=None ctermbg=darkgrey
 "
 "Indenting
 set smartindent
@@ -28,11 +33,11 @@ set expandtab
 set smarttab
 set softtabstop=0
 "
-"Movement
-nnoremap <C-j> :tabfirst<CR>
-nnoremap <C-k> :tablast<CR>
-nnoremap <C-h> :tabp<CR>
-nnoremap <C-l> :tabn<CR>
+"Movement between tabs
+nnoremap <silent> <C-j> :tabfirst<CR>
+nnoremap <silent> <C-k> :tablast<CR>
+nnoremap <silent> <C-h> :tabp<CR>
+nnoremap <silent> <C-l> :tabn<CR>
 "
 "Search
 set incsearch
@@ -46,10 +51,6 @@ set noerrorbells
 set novisualbell
 set t_vb=
 set tm=500
-"
-"Cursor
-set cursorline
-highlight CursorLine cterm=none ctermfg=None ctermbg=darkgrey
 "
 "Mapping
 nmap <F2> :w<CR>
@@ -81,17 +82,17 @@ function! ToggleNumber()
     endif
 endfunc
 
-ino <F3> <ESC>:call ToggleNumber()<CR>i
-nno <F3> :call ToggleNumber()<CR>
+ino <silent> <F3> <ESC>:call ToggleNumber()<CR>i
+nno <silent> <F3> :call ToggleNumber()<CR>
 "
 "Stop accidnetly holding down <SHIFT> 
-command! W w
-command! Wq wq
-command! Q q
-command! Write w !sudo tee % > /dev/null
+"command! W w
+"command! Wq wq
+"command! Q q
+"command! Write w !sudo tee % > /dev/null
+command! W w !sudo tee % > /dev/null
 "
 "Skeleton Files
-"       Bash
 if has("autocmd")
   augroup templates
     autocmd BufNewFile *.sh 0r ~/.vim/templates/skeleton.sh
@@ -108,10 +109,17 @@ nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
 "
+"Enable Project Specific vimrc
+" this allows for project specific vimrc files
+" eg ./project/.vimrc
+set exrc
+set secure
+"
 "GoldenView
 set runtimepath^=~/.vim/bundle/GoldenView.Vim
+let g:goldenview__enable_default_mapping = 0
 " 1. split to tiled windows
-nmap <silent> <C-L>  <Plug>GoldenViewSplit
+nmap <silent> <S-L>  <Plug>GoldenViewSplit
 
 " 2. quickly switch current window with the main pane
 " and toggle back

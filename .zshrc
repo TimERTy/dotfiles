@@ -18,6 +18,3 @@ fi
 if [ -f ~/.shrc ]; then
     . ~/.shrc
 fi
-
-source ~/.commonrc
-
