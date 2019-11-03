@@ -114,23 +114,5 @@ nnoremap <Down> :echoe "Use j"<CR>
 " eg ./project/.vimrc
 set exrc
 set secure
-"
-"GoldenView
-set runtimepath^=~/.vim/bundle/GoldenView.Vim
-let g:goldenview__enable_default_mapping = 0
-" 1. split to tiled windows
-nmap <silent> <S-L>  <Plug>GoldenViewSplit
-
-" 2. quickly switch current window with the main pane
-" and toggle back
-nmap <silent> <F8>   <Plug>GoldenViewSwitchMain
-nmap <silent> <S-F8> <Plug>GoldenViewSwitchToggle
-
-" 3. jump to next and previous window
-nmap <silent> <C-N>  <Plug>GoldenViewNext
-nmap <silent> <C-P>  <Plug>GoldenViewPrevious
-"
-"ParEdit
-set runtimepath^=~/.vim/bundle/paredit.vim
-au FileType * call PareditInitBuffer()
-
+" I use local .vimrc to install plugins for specific projects
+" with vim-plug this allows for easy project customisability

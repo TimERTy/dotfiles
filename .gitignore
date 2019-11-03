@@ -1,2 +1,2 @@
-.vim/bundle/GoldenView.Vim/
-.vim/bundle/paredit.vim/
+.vim/bundle/*
+.vim/plugged/*
