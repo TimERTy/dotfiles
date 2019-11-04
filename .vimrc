@@ -29,7 +29,7 @@ set foldenable
 set foldmethod=syntax
 set foldlevelstart=10
 set foldnestmax=10
-nno <space> za
+nno <space><space> za
 "au FileType html set foldmethod=indent
 
 "
@@ -50,6 +50,10 @@ set hlsearch
 set lazyredraw
 
 "
+"Move swap files to tmp
+set directory^=$HOME/.vim/tmp//
+
+"
 "Rm error Sound
 set noerrorbells
 set novisualbell
@@ -58,6 +62,8 @@ set tm=500
 
 "
 "Mapping
+" Leader
+let mapleader = " "
 " Save
 nno <F2> :w<CR>
 ino <F2> <ESC>:w<CR>i
@@ -76,6 +82,13 @@ nno <Left> :echoe "Use h"<CR>
 nno <Right> :echoe "Use l"<CR>
 nno <Up> :echoe "Use k"<CR>
 nno <Down> :echoe "Use j"<CR>
+
+"
+" Tags binds
+"  New Tab find tag
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+"  Vertical Split tag
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 " Toggle between number and relativenumber
 function! ToggleNumber()
@@ -96,9 +109,9 @@ command! W w !sudo tee % > /dev/null
 
 "
 "Skeleton Files
-au BufNewFile *.sh 0r ~/.vim/templates/skeleton.sh
-
-"
+augroup templates
+  autocmd BufNewFile *.* silent! execute '0r ~/.vim/templates/skeleton.'.expand("<afile>:e")
+augroup END
 "Enable Project Specific vimrc
 " this allows for project specific vimrc files
 " eg ./project/.vimrc
@@ -108,11 +121,11 @@ set secure
 " with vim-plug this allows for easy project customisability
 
 " Example Plugins
-call plug#begin('~/.vim/plugged')
-
-" Golden ratio window splitter
-Plug 'https://github.com/zhaocai/GoldenView.Vim'
-
-" Initialize the plugin system
-call plug#end()
+"call plug#begin('~/.vim/plugged')
+"
+"" Golden ratio window splitter
+"Plug 'https://github.com/zhaocai/GoldenView.Vim'
+"
+"" Initialize the plugin system
+"call plug#end()
 
