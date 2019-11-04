@@ -48,6 +48,7 @@ set hlsearch
 "
 "
 set lazyredraw
+set tabpagemax=30
 
 "
 "Move swap files to tmp
