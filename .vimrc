@@ -78,11 +78,11 @@ nno <silent> <S-l> :tablast<CR>
 nno <silent> <S-j> :tabp<CR>
 nno <silent> <S-k> :tabn<CR>
 
-" Negative Reinforcment
-nno <Left> :echoe "Use h"<CR>
-nno <Right> :echoe "Use l"<CR>
-nno <Up> :echoe "Use k"<CR>
-nno <Down> :echoe "Use j"<CR>
+"" Negative Reinforcment
+"nno <Left> :echoe "Use h"<CR>
+"nno <Right> :echoe "Use l"<CR>
+"nno <Up> :echoe "Use k"<CR>
+"nno <Down> :echoe "Use j"<CR>
 
 "
 " Tags binds
@@ -122,11 +122,11 @@ set secure
 " with vim-plug this allows for easy project customisability
 
 " Example Plugins
-"call plug#begin('~/.vim/plugged')
-"
-"" Golden ratio window splitter
-"Plug 'https://github.com/zhaocai/GoldenView.Vim'
-"
-"" Initialize the plugin system
-"call plug#end()
+call plug#begin('~/.vim/plugged')
+
+" Golden ratio window splitter
+Plug 'https://github.com/zhaocai/GoldenView.Vim'
+
+" Initialize the plugin system
+call plug#end()
 

@@ -5,5 +5,4 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias setJava8="sudo update-alternatives --config java <<< $'2' && sudo update-alternatives --config javac <<< $'2'"
 alias setJava11="sudo update-alternatives --config java <<< $'0' && sudo update-alternatives --config javac <<< $'0'"
 alias setJavaHome="JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac)))); $(echo $JAVA_HOME)"
-
-ANDROID_HOME=/home/wm-admin/Android/Sdk/platforms/android-27
+alias site_admin='./site_admin.sh'
