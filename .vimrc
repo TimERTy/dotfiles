@@ -34,7 +34,7 @@ nno <space><space> za
 
 "
 "Tabbing
-set tabstop=8
+set tabstop=4
 set shiftwidth=4
 set expandtab
 set smarttab
@@ -46,12 +46,43 @@ set incsearch
 set hlsearch
 
 "
-"
-set lazyredraw
-set tabpagemax=30
+"Statusline
+" define 3 custom highlight groups
+hi User1 ctermfg=white
+hi User2 ctermfg=red
+hi User3 ctermfg=lightgreen
+
+set laststatus=2
+set statusline=
+set statusline+=%1*
+set statusline+=%<\                     " indent
+set statusline+=%3*%-5.40f\             " filename
+set statusline+=%2*%H%M%R%W\            " statuses
+set statusline+=%=%1*%y\                " filetype
+set statusline+=%10([%{&expandtab?'spaces:'.&shiftwidth:'tab'}]%)\                " filetype
+set statusline+=%10((%l,%c)%)\          " row column
+set statusline+=%P\                     " percentage
+
+set noshowmode
 
 "
-"Move swap files to tmp
+"TabLine
+hi TabLineSel ctermbg=darkgrey ctermfg=white term=none
+hi TabWinNumSel ctermbg=darkgrey ctermfg=white term=none
+hi TabNumSel ctermbg=darkgrey ctermfg=white term=none
+
+hi TabLine cterm=none ctermbg=none ctermfg=white term=none
+hi TabWinNum cterm=none ctermbg=none ctermfg=white term=none
+
+hi TabLineFill cterm=none
+
+"
+"
+set lazyredraw
+set tabpagemax=15
+
+"
+"Move swap files to tmp 
 set directory^=$HOME/.vim/tmp//
 
 "
@@ -78,11 +109,34 @@ nno <silent> <S-l> :tablast<CR>
 nno <silent> <S-j> :tabp<CR>
 nno <silent> <S-k> :tabn<CR>
 
-"" Negative Reinforcment
-"nno <Left> :echoe "Use h"<CR>
-"nno <Right> :echoe "Use l"<CR>
-"nno <Up> :echoe "Use k"<CR>
-"nno <Down> :echoe "Use j"<CR>
+" Movement between splits
+nno <silent> <C-W><C-N> :vnew<CR>
+nno <silent> <C-H> <C-W>h
+nno <silent> <C-L> <C-W>l
+nno <silent> <C-J> <C-W>j
+nno <silent> <C-K> <C-W>k
+
+" Negative Reinforcment
+function! ToggleNegative()
+    if(s:negativeReinforcement == 0)
+        nno <Left> :echoe "Use h"<CR>
+        nno <Right> :echoe "Use l"<CR>
+        nno <Up> :echoe "Use k"<CR>
+        nno <Down> :echoe "Use j"<CR>
+        let s:negativeReinforcement = 1
+    else
+        unmap <Left>
+        unmap <Right>
+        unmap <Up>
+        unmap <Down>
+        let s:negativeReinforcement = 0
+    endif
+endfunc
+let s:negativeReinforcement = 0
+call ToggleNegative()
+
+ino <silent> <leader><Up> <ESC>:call ToggleNegative()<CR>i
+nno <silent> <leader><Up> :call ToggleNegative()<CR>
 
 "
 " Tags binds
@@ -124,9 +178,9 @@ set secure
 " Example Plugins
 call plug#begin('~/.vim/plugged')
 
-" Golden ratio window splitter
-Plug 'https://github.com/zhaocai/GoldenView.Vim'
+" Default Plugins
+Plug 'webdevel/tabulous'
+Plug 'https://github.com/jiangmiao/auto-pairs'
 
 " Initialize the plugin system
 call plug#end()
-

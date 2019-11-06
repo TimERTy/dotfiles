@@ -1,5 +1,9 @@
 " Project Plugins
 call plug#begin('~/.vim/plugged')
+" Default Plugins
+Plug 'webdevel/tabulous'
+Plug 'https://github.com/jiangmiao/auto-pairs'
+
 " Typescrript syntax support
 Plug 'https://github.com/leafgarland/typescript-vim'
 
@@ -11,9 +15,6 @@ Plug 'https://github.com/Quramy/tsuquyomi'
 
 " Syntastic plugin
 Plug 'https://github.com/vim-syntastic/syntastic'
-
-" Auto pairs plugin
-Plug 'https://github.com/jiangmiao/auto-pairs'
 
 " Angular CLI plugin
 " Use :Ng command in Vim

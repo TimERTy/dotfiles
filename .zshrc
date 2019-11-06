@@ -11,10 +11,11 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+if [ -f ~/.shrc ]; then
+    . ~/.shrc
+fi
+
 if [ -f ~/.sh_aliases ]; then
     . ~/.sh_aliases
 fi
 
-if [ -f ~/.shrc ]; then
-    . ~/.shrc
-fi
