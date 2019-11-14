@@ -2,7 +2,7 @@
 
 DOT_DIR=$(pwd)
 (
-for i in $DOT_DIR\/{.*rc,.*aliases,.vim}; do
+for i in $DOT_DIR\/{.*rc,.*aliases,.vim,.ctags}; do
     [ -e "$i" ] || continue
     i=${i##*/}
     rm -rf ~/$i
