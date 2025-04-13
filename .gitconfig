@@ -12,3 +12,5 @@
 	enabled = true
 [maintenance]
 	repo = /Users/timerty/repos/dotfiles
+[rebase]
+	updateRefs = true
