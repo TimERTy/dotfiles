@@ -1,0 +1,14 @@
+[user]
+	email = timothy@mahon.dev
+	name = Tim Mahon
+[init]
+	defaultBranc = main
+	defaultBranch = main
+[core]
+	autocrlf = input
+[alias]
+	staash = stash --all
+[rerere]
+	enabled = true
+[maintenance]
+	repo = /Users/timerty/repos/dotfiles
