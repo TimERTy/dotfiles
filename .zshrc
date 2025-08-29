@@ -79,3 +79,7 @@ fi
 if [ -f ~/.sh_aliases ]; then
     . ~/.sh_aliases
 fi
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/timerty/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
