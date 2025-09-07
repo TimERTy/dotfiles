@@ -6,12 +6,22 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="$HOME/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
+export PATH="$HOME/.scripts/bin:$PATH"
+export PATH="$HOME/.dotnet:$PATH"
+
 PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 
-source /usr/local/opt/chruby/share/chruby/chruby.sh
+export ASPNETCORE_ENVIRONMENT=Development
+export DOTNET_ENVIRONMENT=Development
+export Configuration=Debug_NetCore
+export DOTNET_WATCH_RESTART_ON_RUDE_EDIT=true
+export TZ="Australia/Queensland"
+export T1_ISDEVCONTAINER=true
+export TEAMCITY_BUILD_TEST_DBS="TEST,SQLSERVER"
+export T1_AICLIENT_GATEWAY_OVERRIDE=external
 
-export PATH="/usr/local/bin:$PATH"
+export PATH="$PATH:/opt/mssql-tools18/bin"

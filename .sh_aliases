@@ -12,3 +12,16 @@ alias vi="nvim"
 alias vim='nvim'
 
 alias c='clear'
+
+# Open nvim in the current workspace's devcontainer
+nvdc() { devcontainer exec --workspace-folder "${1:-.}" bash -lc 'nvim .' ; }
+
+# Ensure the container is up, then run nvim
+nvup() { devcontainer up --workspace-folder "${1:-.}" && nvdc "${1:-.}"; }
+
+# Open a shell in the container
+dcshell() { devcontainer exec --workspace-folder "${1:-.}" bash -l ; }
+
+# Ensure the container is up, then run nvim
+dcdown() { devcontainer down --workspace-folder "${1:-.}" ; }
+
