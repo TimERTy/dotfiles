@@ -1,9 +1,27 @@
-alias ll='ls -lF'
-alias la='ls -Al'
-alias l='ls -F1'
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias setJava8="sudo update-alternatives --config java <<< $'2' && sudo update-alternatives --config javac <<< $'2'"
-alias setJava11="sudo update-alternatives --config java <<< $'0' && sudo update-alternatives --config javac <<< $'0'"
-alias setJavaHome="JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac)))); $(echo $JAVA_HOME)"
+# some more ls aliases
+alias ls='ls --color'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
 
-ANDROID_HOME=/home/wm-admin/Android/Sdk/platforms/android-27
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+alias vi="nvim"
+alias vim='nvim'
+
+alias c='clear'
+
+# Open nvim in the current workspace's devcontainer
+nvdc() { devcontainer exec --workspace-folder "${1:-.}" bash -lc 'nvim .' ; }
+
+# Ensure the container is up, then run nvim
+nvup() { devcontainer up --workspace-folder "${1:-.}" && nvdc "${1:-.}"; }
+
+# Open a shell in the container
+dcshell() { devcontainer exec --workspace-folder "${1:-.}" bash -l ; }
+
+# Ensure the container is up, then run nvim
+dcdown() { devcontainer down --workspace-folder "${1:-.}" ; }
+

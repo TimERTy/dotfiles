@@ -1,2 +1,4 @@
-.vim/bundle/GoldenView.Vim/
-.vim/bundle/paredit.vim/
+.vim/*
+.vim/.netrwhist
+!.vim/autoload/*
+!.vim/templates/*
