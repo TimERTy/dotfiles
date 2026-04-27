@@ -1,0 +1,227 @@
+{
+    "layer": "top",
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "spacing": 0,
+
+    "modules-left": [
+        "hyprland/workspaces",
+        "custom/empty"
+    ],
+    "modules-center": [
+        "hyprland/window",
+        "custom/empty"
+    ],
+    "modules-right": [
+        "pulseaudio",
+        "bluetooth",
+        "network",
+        "custom/vpn",
+        "battery",
+        "group/hardware",
+        "group/tools",
+        "custom/notification",
+        "custom/exit",
+        "clock"
+    ],
+
+    // ── Workspaces ──────────────────────────────────────────────────────────
+
+    "hyprland/workspaces": {
+        "on-scroll-up": "hyprctl dispatch workspace r-1",
+        "on-scroll-down": "hyprctl dispatch workspace r+1",
+        "on-click": "activate",
+        "active-only": false,
+        "all-outputs": true,
+        "format": "{}",
+        "persistent-workspaces": { "*": 5 }
+    },
+
+    // ── Window title ────────────────────────────────────────────────────────
+
+    "hyprland/window": {
+        "max-length": 60,
+        "separate-outputs": true
+    },
+
+    // ── Empty spacer ────────────────────────────────────────────────────────
+
+    "custom/empty": {
+        "format": ""
+    },
+
+    // ── Audio ───────────────────────────────────────────────────────────────
+
+    "pulseaudio": {
+        "format": "{icon}  {volume}%",
+        "format-muted": "\uf6a9  {format_source}",
+        "format-bluetooth": "\uf294  {volume}%",
+        "format-icons": {
+            "headphone": "\uf025 ",
+            "headset": "\uf590",
+            "default": ["\uf026", "\uf027", "\uf028"]
+        },
+        "on-click": "pavucontrol"
+    },
+
+    // ── Bluetooth ───────────────────────────────────────────────────────────
+
+    "bluetooth": {
+        "format": "\uf293 {status}",
+        "format-disabled": "",
+        "format-off": "",
+        "format-no-controller": "",
+        "interval": 30,
+        "on-click": "blueman-manager",
+        "tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}"
+    },
+
+    // ── Network ─────────────────────────────────────────────────────────────
+
+    "network": {
+        "format-wifi": "\uf1eb {signalStrength}%",
+        "format-ethernet": "\uf796  {ifname}",
+        "format-disconnected": "⚠ Disconnected",
+        "tooltip-format-wifi": "{essid}\nIP: {ipaddr}\nStrength: {signalStrength}%",
+        "tooltip-format-ethernet": "{ifname}\nIP: {ipaddr}",
+        "max-length": 50,
+        "on-click": "nm-connection-editor"
+    },
+
+    // ── VPN ─────────────────────────────────────────────────────────────────
+
+    "custom/vpn": {
+        "format": "{}",
+        "return-type": "json",
+        "escape": true,
+        "exec-on-event": true,
+        "interval": 10,
+        "exec": "~/.config/hypr/scripts/vpn.sh status",
+        "on-click": "~/.config/hypr/scripts/vpn.sh toggle",
+        "tooltip": true
+    },
+
+    // ── Battery ─────────────────────────────────────────────────────────────
+
+    "battery": {
+        "interval": 30,
+        "states": { "warning": 30, "critical": 15 },
+        "format": "{icon} {capacity}%",
+        "format-charging": "\uf5e7  {capacity}%",
+        "format-plugged": "\uf1e6  {capacity}%",
+        "format-icons": ["\uf244", "\uf243", "\uf242", "\uf241", "\uf240"]
+    },
+
+    // ── Hardware group ──────────────────────────────────────────────────────
+
+    "group/hardware": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 300,
+            "children-class": "not-memory",
+            "transition-left-to-right": false
+        },
+        "modules": ["custom/system", "disk", "cpu", "memory"]
+    },
+
+    "custom/system": {
+        "format": "\ue473",
+        "tooltip": false
+    },
+
+    "disk": {
+        "interval": 60,
+        "format": "D {percentage_used}% ",
+        "path": "/"
+    },
+
+    "cpu": {
+        "format": "/ C {usage}% "
+    },
+
+    "memory": {
+        "format": "/ M {}% "
+    },
+
+    // ── Tools group ─────────────────────────────────────────────────────────
+
+    "group/tools": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 300,
+            "children-class": "not-memory",
+            "transition-left-to-right": false
+        },
+        "modules": ["custom/tools", "custom/cliphist", "custom/hypridle", "power-profiles-daemon"]
+    },
+
+    "custom/tools": {
+        "format": "\uf5fd",
+        "tooltip-format": "Tools"
+    },
+
+    "custom/cliphist": {
+        "format": "\uf0ea",
+        "tooltip-format": "Clipboard",
+        "on-click": "sleep 0.1 && cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+    },
+
+    "custom/hypridle": {
+        "format": "\uf023",
+        "return-type": "json",
+        "escape": true,
+        "exec-on-event": true,
+        "interval": 60,
+        "exec": "~/.config/hypr/scripts/hypridle.sh status",
+        "on-click": "~/.config/hypr/scripts/hypridle.sh toggle"
+    },
+
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}",
+        "format-icons": {
+            "default": "\uf185",
+            "performance": "\uf0e7",
+            "balanced": "\uf863",
+            "power-saver": "\uf06c"
+        }
+    },
+
+    // ── Notification ────────────────────────────────────────────────────────
+
+    "custom/notification": {
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "notifications_active",
+            "none": "notifications",
+            "dnd-notification": "notifications_active",
+            "dnd-none": "notifications_paused"
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true,
+        "tooltip-format": "Left: notifications\nRight: do not disturb"
+    },
+
+    // ── Exit ────────────────────────────────────────────────────────────────
+
+    "custom/exit": {
+        "format": "\uf011",
+        "on-click": "wlogout",
+        "on-click-right": "hyprlock",
+        "tooltip-format": "Left: power menu\nRight: lock screen"
+    },
+
+    // ── Clock ───────────────────────────────────────────────────────────────
+
+    "clock": {
+        "format": "{:%H:%M - %a}",
+        "tooltip": false
+    }
+}

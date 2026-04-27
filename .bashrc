@@ -101,3 +101,4 @@ export PATH="$HOME/.rd/bin:$PATH"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 . "$HOME/.cargo/env"
 export PATH="$PATH:/opt/mssql-tools18/bin"
+export PATH="$HOME/.local/bin:$PATH"

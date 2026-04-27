@@ -4,4 +4,4 @@
 --ignore=README.md
 --ignore=.gitignore
 --ignore=.obsidian
---ignore=.vim
+--ignore=^\\.vim$

@@ -1,0 +1,115 @@
+/* Main launcher: bare-bones single column. Search on top, results below. */
+
+configuration {
+    modi:                "drun,run,window,filebrowser";
+    show-icons:          true;
+    icon-theme:          "kora-pgrey";
+    hover-select:        false;
+    scroll-method:       1;
+    drun-display-format: "{name}";
+    window-format:       "{w} · {c} · {t}";
+    display-drun:        "apps";
+    display-run:         "run";
+    display-window:      "win";
+    display-filebrowser: "files";
+    me-select-entry:     "";
+    me-accept-entry:     "MousePrimary";
+}
+
+@theme "~/.config/rofi/colors.rasi"
+@import "~/.config/rofi/shared.rasi"
+
+window {
+    width:            36em;
+    transparency:     "real";
+    border:           @border-width;
+    border-color:     @primary;
+    border-radius:    @border-radius;
+    background-color: @background;
+    padding:          0;
+}
+
+mainbox {
+    children:         [ "inputbar", "listview" ];
+    background-color: transparent;
+    padding:          0;
+    spacing:          0;
+}
+
+inputbar {
+    children:         [ "prompt", "entry" ];
+    padding:          8px 12px;
+    spacing:          8px;
+    border-radius:    0;
+    background-color: @surface-container;
+    text-color:       @on-surface;
+    border:           0 0 2px 0;
+    border-color:     @outline-variant;
+}
+
+prompt {
+    enabled:          true;
+    text-color:       @primary;
+    background-color: transparent;
+}
+
+entry {
+    placeholder:       "";
+    text-color:        @on-surface;
+    background-color:  transparent;
+    placeholder-color: @on-surface-variant;
+}
+
+listview {
+    lines:            10;
+    columns:          1;
+    cycle:            true;
+    dynamic:          true;
+    scrollbar:        false;
+    fixed-height:     true;
+    padding:          6px;
+    spacing:          0;
+    background-color: transparent;
+    text-color:       @on-surface;
+}
+
+element {
+    padding:          6px 10px;
+    spacing:          10px;
+    border-radius:    @border-radius;
+    text-color:       @on-surface;
+    background-color: transparent;
+    children:         [ element-icon, element-text ];
+}
+
+element-icon {
+    size:             1.4em;
+    cursor:           inherit;
+    text-color:       inherit;
+    background-color: transparent;
+    vertical-align:   0.5;
+}
+
+element selected.normal,
+element selected.urgent,
+element selected.active {
+    background-color: @primary-container;
+    text-color:       @on-primary-container;
+}
+
+element-text {
+    text-color:       inherit;
+    background-color: transparent;
+    vertical-align:   0.5;
+}
+
+error-message {
+    padding:          1em;
+    text-color:       @on-surface;
+    background-color: @background;
+}
+
+textbox {
+    text-color:       inherit;
+    background-color: inherit;
+}

@@ -1,0 +1,83 @@
+/* Screenshot/dmenu prompt: centered list, prompt-driven, no icons. */
+
+configuration {
+    show-icons:          false;
+    hover-select:        false;
+    scroll-method:       1;
+    me-select-entry:     "";
+    me-accept-entry:     "MousePrimary";
+}
+
+@theme "~/.config/rofi/colors.rasi"
+@import "~/.config/rofi/shared.rasi"
+
+window {
+    width:            22em;
+    location:         center;
+    anchor:           center;
+    transparency:     "real";
+    border:           @border-width;
+    border-color:     @primary;
+    border-radius:    @border-radius;
+    background-color: @background;
+    padding:          0;
+}
+
+mainbox {
+    children:         [ "inputbar", "listview" ];
+    background-color: transparent;
+    padding:          0;
+    spacing:          0;
+}
+
+inputbar {
+    children:         [ "prompt", "entry" ];
+    padding:          8px 12px;
+    spacing:          8px;
+    border-radius:    0;
+    background-color: @surface-container;
+    border:           0 0 2px 0;
+    border-color:     @outline-variant;
+}
+
+prompt {
+    text-color:       @primary;
+    background-color: transparent;
+}
+
+entry {
+    text-color:        @on-surface;
+    background-color:  transparent;
+    placeholder-color: @on-surface-variant;
+}
+
+listview {
+    columns:          1;
+    cycle:            false;
+    dynamic:          true;
+    scrollbar:        false;
+    fixed-height:     true;
+    padding:          6px;
+    spacing:          0;
+    background-color: transparent;
+}
+
+element {
+    padding:          6px 10px;
+    border-radius:    @border-radius;
+    text-color:       @on-surface;
+    background-color: transparent;
+}
+
+element selected.normal,
+element selected.urgent,
+element selected.active {
+    background-color: @primary-container;
+    text-color:       @on-primary-container;
+}
+
+element-text {
+    text-color:       inherit;
+    background-color: transparent;
+    vertical-align:   0.5;
+}

@@ -1,3 +1,7 @@
+[[ -o interactive ]] && fastfetch
+
+export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
+
 if [[ -f "/opt/homebrew/bin/brew" ]] then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi

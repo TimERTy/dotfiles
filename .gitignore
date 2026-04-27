@@ -2,3 +2,18 @@
 .vim/.netrwhist
 !.vim/autoload/*
 !.vim/templates/*
+
+*.png
+*.jpg
+
+# matugen-generated theme files
+.config/kitty/colors-matugen.conf
+.config/ghostty/colors-matugen
+.config/btop/themes/matugen.theme
+.config/hypr/colors.conf
+.config/waybar/colors.css
+.config/rofi/colors.rasi
+.config/gtk-3.0/colors.css
+.config/gtk-4.0/colors.css
+.config/wlogout/colors.css
+.config/swaync/colors.css

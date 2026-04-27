@@ -1,0 +1,2 @@
+configuration { font: "Fira Sans Semibold 11"; }
+* { border-width: 2px; border-radius: 8px; }
