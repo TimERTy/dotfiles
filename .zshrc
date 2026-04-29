@@ -34,9 +34,7 @@ zinit light Aloxaf/fzf-tab
 
 # Add in snippets
 zinit snippet OMZL::git.zsh
-zinit snippet OMZP::git
 zinit snippet OMZP::sudo
-zinit snippet OMZP::aws
 zinit snippet OMZP::kubectl
 zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
@@ -86,6 +84,4 @@ if [ -f ~/.sh_aliases ]; then
     . ~/.sh_aliases
 fi
 
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="$HOME/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+. "$HOME/.local/bin/env"

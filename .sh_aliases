@@ -9,7 +9,6 @@ alias l='ls -CF'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 alias vi="nvim"
-alias vim='nvim'
 
 alias c='clear'
 
@@ -24,4 +23,10 @@ dcshell() { devcontainer exec --workspace-folder "${1:-.}" bash -l ; }
 
 # Ensure the container is up, then run nvim
 dcdown() { devcontainer down --workspace-folder "${1:-.}" ; }
+
+# Ensure the container is up
+dcup() { devcontainer up --workspace-folder "${1:-.}" ; }
+
+alias ld='lazydocker'
+alias lg='lazygit'
 

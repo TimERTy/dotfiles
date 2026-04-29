@@ -1,0 +1,13 @@
+#!/bin/bash
+# Debounce autorandr for udev hotplug events
+# Waits for monitor enumeration to settle before switching profile
+
+LOCK="/tmp/autorandr-udev.lock"
+
+# Skip if already running
+[ -f "$LOCK" ] && exit 0
+touch "$LOCK"
+
+sleep 3
+/usr/bin/autorandr --batch --change
+rm -f "$LOCK"
