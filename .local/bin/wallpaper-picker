@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Rofi-based wallpaper picker. Lists images in ~/.config/wallpapers/ with
+# thumbnail previews, pipes the selection to wallpaper.sh.
+# Primary use: Xorg sessions (Wayland uses waypaper). Works on either.
+
+WALL_DIR="${WALLPAPER_DIR:-$HOME/.config/wallpapers}"
+SETTER="$HOME/.config/hypr/scripts/wallpaper.sh"
+
+[ -d "$WALL_DIR" ] || { echo "No wallpaper dir: $WALL_DIR" >&2; exit 1; }
+[ -x "$SETTER" ]  || { echo "Setter not executable: $SETTER" >&2; exit 1; }
+
+# Emit "name\0icon\x1f<path>" so rofi shows thumbnails.
+selected=$(
+    find "$WALL_DIR" -type f \
+        \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \
+           -o -iname '*.webp' -o -iname '*.gif' \) \
+        -printf '%f\0icon\x1f%p\n' \
+    | sort \
+    | rofi -dmenu -i -p "Wallpaper" -show-icons
+)
+
+[ -z "$selected" ] && exit 0
+
+path=$(find "$WALL_DIR" -type f -name "$selected" -print -quit)
+[ -n "$path" ] && exec "$SETTER" "$path"

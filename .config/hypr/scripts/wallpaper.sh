@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Called by waypaper post_command with the selected wallpaper path as $1.
-# Generates blurred/square wallpaper variants for hyprlock, then reloads the bar.
+# Set wallpaper, regenerate Material You palette, reload session components.
+# Works on Hyprland/Wayland (invoked by waypaper post_command) and Xorg
+# (invoke directly: wallpaper.sh /path/to/img).
 
 WALLPAPER="$1"
 CACHE_DIR="$HOME/.cache/hypr"
@@ -17,17 +18,30 @@ else
     exit 1
 fi
 
-# Blurred wallpaper for hyprlock background and rofi popup
 "${IM[@]}" "$WALLPAPER" -resize 75% -blur 50x30 "$CACHE_DIR/blurred_wallpaper.png"
-
-# Square crop for hyprlock avatar
 "${IM[@]}" "$WALLPAPER" -gravity Center -extent 1:1 "$CACHE_DIR/square_wallpaper.png"
 
-# Regenerate Material You palette for kitty/waybar/hypr/rofi/etc.
 if command -v matugen >/dev/null; then
     matugen image "$WALLPAPER" -m dark -q
 fi
 
-# Reload waybar and swaync
-~/.config/waybar/launch.sh &
-sleep 0.5 && swaync-client -rs &
+case "${XDG_CURRENT_DESKTOP:-}" in
+    *Hyprland*|*hyprland*)
+        # waypaper set bg before invoking us; reload bar + notifs
+        [ -x "$HOME/.config/waybar/launch.sh" ] && "$HOME/.config/waybar/launch.sh" &
+        command -v swaync-client >/dev/null && (sleep 0.5 && swaync-client -rs) &
+        ;;
+    *GNOME*|*gnome*)
+        # Ubuntu/GNOME: shell owns bar/notifs/lock; just set bg via gsettings
+        if command -v gsettings >/dev/null; then
+            uri="file://$WALLPAPER"
+            gsettings set org.gnome.desktop.background picture-uri "$uri"
+            gsettings set org.gnome.desktop.background picture-uri-dark "$uri"
+            gsettings set org.gnome.desktop.background picture-options 'zoom'
+        fi
+        ;;
+    *)
+        # generic fallback
+        command -v feh >/dev/null && feh --bg-fill "$WALLPAPER"
+        ;;
+esac

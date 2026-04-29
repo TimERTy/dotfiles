@@ -18,12 +18,12 @@ post_hook = 'pkill -USR2 btop'
 [templates.hyprland]
 input_path = '~/.config/matugen/templates/hyprland-colors.conf'
 output_path = '~/.config/hypr/colors.conf'
-post_hook = 'hyprctl reload'
+post_hook = 'command -v hyprctl >/dev/null && hyprctl reload || true'
 
 [templates.waybar]
 input_path = '~/.config/matugen/templates/colors.css'
 output_path = '~/.config/waybar/colors.css'
-post_hook = '~/.config/waybar/launch.sh'
+post_hook = '[ -x ~/.config/waybar/launch.sh ] && ~/.config/waybar/launch.sh || true'
 
 [templates.rofi]
 input_path = '~/.config/matugen/templates/rofi-colors.rasi'
