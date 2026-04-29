@@ -142,22 +142,60 @@ stow -t "$HOME" --adopt \
   "$(basename "$DIR")"
 
 # --- Optional: GNOME GTK theming setup (adw-gtk3 + gsettings) ---
-gnome_setup() {
-    echo "==> GNOME GTK setup: installing adw-gtk3 and switching theme"
+adw_gtk3_already_installed() {
+    [ -d "/usr/share/themes/adw-gtk3" ] \
+        || [ -d "$HOME/.local/share/themes/adw-gtk3" ] \
+        || [ -d "$HOME/.themes/adw-gtk3" ]
+}
 
-    if dpkg -s adw-gtk3 >/dev/null 2>&1 || pacman -Qq adw-gtk3 >/dev/null 2>&1 \
-       || rpm -q adw-gtk3 >/dev/null 2>&1; then
-        echo "    adw-gtk3 already installed"
-    elif command -v apt-get >/dev/null; then
-        sudo apt-get update && sudo apt-get install -y adw-gtk3
+install_adw_gtk3_user() {
+    # Fallback: download latest GitHub release tarball into ~/.local/share/themes
+    echo "    installing adw-gtk3 to ~/.local/share/themes (user-local)"
+    command -v curl  >/dev/null || { echo "    curl missing" >&2; return 1; }
+    command -v tar   >/dev/null || { echo "    tar missing"  >&2; return 1; }
+
+    local url tmp
+    url=$(curl -sL https://api.github.com/repos/lassekongo83/adw-gtk3/releases/latest \
+          | grep -oE 'https://github\.com/[^"]+adw-gtk3[^"]+\.tar\.xz' | head -1)
+    [ -n "$url" ] || { echo "    could not find release URL" >&2; return 1; }
+
+    tmp=$(mktemp -d) || return 1
+    trap "rm -rf '$tmp'" RETURN
+    if ! curl -sL -o "$tmp/adw-gtk3.tar.xz" "$url"; then
+        echo "    download failed: $url" >&2
+        return 1
+    fi
+    mkdir -p "$HOME/.local/share/themes"
+    tar -xf "$tmp/adw-gtk3.tar.xz" -C "$HOME/.local/share/themes" \
+        || { echo "    tar extract failed" >&2; return 1; }
+    echo "    installed from $url"
+}
+
+install_adw_gtk3_pkg() {
+    if command -v apt-get >/dev/null; then
+        sudo apt-get update -qq && sudo apt-get install -y adw-gtk3 2>/dev/null
     elif command -v dnf >/dev/null; then
         sudo dnf install -y adw-gtk3
     elif command -v pacman >/dev/null; then
-        sudo pacman -S --needed --noconfirm adw-gtk3 \
-            || echo "    adw-gtk3 not in pacman repos; install from AUR (paru/yay)" >&2
+        sudo pacman -S --needed --noconfirm adw-gtk3
     else
-        echo "    unknown package manager; install adw-gtk3 manually" >&2
         return 1
+    fi
+}
+
+gnome_setup() {
+    echo "==> GNOME GTK setup: installing adw-gtk3 and switching theme"
+
+    if adw_gtk3_already_installed; then
+        echo "    adw-gtk3 already installed"
+    elif install_adw_gtk3_pkg; then
+        echo "    adw-gtk3 installed via package manager"
+    else
+        echo "    package manager install failed (not in repos); falling back"
+        install_adw_gtk3_user || {
+            echo "    adw-gtk3 install failed; theme switch skipped" >&2
+            return 1
+        }
     fi
 
     if command -v gsettings >/dev/null; then
