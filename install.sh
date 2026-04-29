@@ -172,12 +172,15 @@ install_adw_gtk3_user() {
 }
 
 install_adw_gtk3_pkg() {
+    # No `apt-get update` — avoids /var/lib/apt/lists/lock contention with
+    # unattended-upgrades, and on Ubuntu adw-gtk3 isn't in the repos anyway
+    # so the install will quickly fall through to the GitHub fallback.
     if command -v apt-get >/dev/null; then
-        sudo apt-get update -qq && sudo apt-get install -y adw-gtk3 2>/dev/null
+        sudo apt-get install -y adw-gtk3 >/dev/null 2>&1
     elif command -v dnf >/dev/null; then
-        sudo dnf install -y adw-gtk3
+        sudo dnf install -y adw-gtk3 >/dev/null 2>&1
     elif command -v pacman >/dev/null; then
-        sudo pacman -S --needed --noconfirm adw-gtk3
+        sudo pacman -S --needed --noconfirm adw-gtk3 >/dev/null 2>&1
     else
         return 1
     fi
@@ -229,8 +232,8 @@ theming_setup() {
             echo "    no wallpaper in $wall_dir; skipping palette seed" >&2
         else
             echo "    seeding palette from: $wall"
-            "$HOME/.config/hypr/scripts/wallpaper.sh" "$wall" \
-                || echo "    wallpaper.sh failed; templates may be empty" >&2
+            "$HOME/.local/bin/set-wallpaper" "$wall" \
+                || echo "    set-wallpaper failed; templates may be empty" >&2
         fi
     fi
 

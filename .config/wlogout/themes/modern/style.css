@@ -27,7 +27,7 @@ by Stephan Raabe (2023)
 }
 
 window {
-	background: url("../../../../.cache/hypr/blurred_wallpaper.png");
+	background: url("../../../../.cache/wallpaper/blurred.png");
 	background-size: cover;
 	font-size: 16pt;
 }

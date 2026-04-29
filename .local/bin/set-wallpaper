@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
 # Set wallpaper, regenerate Material You palette, reload session components.
-# Works on Hyprland/Wayland (invoked by waypaper post_command) and Xorg
-# (invoke directly: wallpaper.sh /path/to/img).
+# Cross-session: Hyprland/Wayland (invoked by waypaper post_command) and
+# GNOME / generic Xorg (invoke directly: set-wallpaper /path/to/img).
 
 WALLPAPER="$1"
-CACHE_DIR="$HOME/.cache/hypr"
+CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper"
 mkdir -p "$CACHE_DIR"
 
-echo "$WALLPAPER" > "$CACHE_DIR/current_wallpaper"
+echo "$WALLPAPER" > "$CACHE_DIR/current"
 
 if command -v magick >/dev/null; then
     IM=(magick)
 elif command -v convert >/dev/null; then
     IM=(convert)
 else
-    echo "wallpaper.sh: ImageMagick (magick or convert) not found" >&2
+    echo "set-wallpaper: ImageMagick (magick or convert) not found" >&2
     exit 1
 fi
 
-"${IM[@]}" "$WALLPAPER" -resize 75% -blur 50x30 "$CACHE_DIR/blurred_wallpaper.png"
-"${IM[@]}" "$WALLPAPER" -gravity Center -extent 1:1 "$CACHE_DIR/square_wallpaper.png"
+"${IM[@]}" "$WALLPAPER" -resize 75% -blur 50x30 "$CACHE_DIR/blurred.png"
+"${IM[@]}" "$WALLPAPER" -gravity Center -extent 1:1 "$CACHE_DIR/square.png"
 
 if command -v matugen >/dev/null; then
     matugen image "$WALLPAPER" -m dark -q
