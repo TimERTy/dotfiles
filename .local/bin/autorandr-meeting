@@ -1,0 +1,60 @@
+#!/bin/bash
+# Configure any connected external monitor above the laptop (eDP-1)
+# Uses external monitor's preferred (default) resolution
+
+LAPTOP="eDP-1"
+LAPTOP_RES="1920x1200"
+
+# Find connected outputs that aren't the laptop
+externals=$(xrandr --query | grep ' connected' | grep -v "^${LAPTOP}" | awk '{print $1}')
+
+if [ -z "$externals" ]; then
+    notify-send "Meeting Mode" "No external monitor detected"
+    exit 1
+fi
+
+# Build xrandr command: laptop at bottom, externals above
+cmd="xrandr --output $LAPTOP --mode $LAPTOP_RES --pos 0x0 --primary"
+
+# For each external, get its preferred resolution and place above laptop
+# We only handle the first external for meeting rooms
+ext=$(echo "$externals" | head -1)
+
+# Get preferred mode (marked with + on indented mode lines)
+preferred=$(xrandr --query | sed -n "/^${ext} /,/^[^ ]/p" | grep '^\s.*+' | head -1 | awk '{print $1}')
+
+if [ -z "$preferred" ]; then
+    notify-send "Meeting Mode" "Cannot determine preferred resolution for $ext"
+    exit 1
+fi
+
+# Parse external resolution height to position laptop below it
+ext_height=$(echo "$preferred" | cut -d'x' -f2)
+
+# Center displays horizontally relative to each other
+ext_width=$(echo "$preferred" | cut -d'x' -f1)
+laptop_width=$(echo "$LAPTOP_RES" | cut -d'x' -f1)
+offset=$(( (ext_width - laptop_width) / 2 ))
+
+if [ "$offset" -ge 0 ]; then
+    # External wider: external at x=0, laptop offset right
+    ext_x=0
+    laptop_x=$offset
+else
+    # Laptop wider: laptop at x=0, external offset right
+    laptop_x=0
+    ext_x=$(( -offset ))
+fi
+
+# External above, laptop below
+cmd="xrandr --output $ext --mode $preferred --pos ${ext_x}x0"
+cmd="$cmd --output $LAPTOP --mode $LAPTOP_RES --pos ${laptop_x}x${ext_height} --primary"
+
+# Turn off all other outputs
+for out in $(xrandr --query | grep ' connected\| disconnected' | awk '{print $1}'); do
+    if [ "$out" != "$LAPTOP" ] && [ "$out" != "$ext" ]; then
+        cmd="$cmd --output $out --off"
+    fi
+done
+
+eval $cmd && notify-send "Meeting Mode" "$ext ($preferred) above $LAPTOP"

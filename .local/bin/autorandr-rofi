@@ -1,0 +1,37 @@
+#!/bin/bash
+# Select and apply an autorandr profile or special mode via rofi
+
+SPECIAL_MODES="meeting"
+
+profiles=$(autorandr --list 2>/dev/null)
+current=$(autorandr --current 2>/dev/null)
+
+# Build display list: autorandr profiles + special modes
+display_list=""
+while IFS= read -r profile; do
+    [ -z "$profile" ] && continue
+    if [ "$profile" = "$current" ]; then
+        display_list+="$profile (active)\n"
+    else
+        display_list+="$profile\n"
+    fi
+done <<< "$profiles"
+
+for mode in $SPECIAL_MODES; do
+    display_list+="$mode\n"
+done
+
+selected=$(echo -e "$display_list" | rofi -dmenu -p "Display Profile" -i)
+
+if [ -n "$selected" ]; then
+    selected="${selected% (active)}"
+
+    case "$selected" in
+        meeting)
+            /home/tim/.local/bin/autorandr-meeting
+            ;;
+        *)
+            autorandr --load "$selected" 2>&1 | head -5
+            ;;
+    esac
+fi

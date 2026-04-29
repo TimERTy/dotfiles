@@ -1,0 +1,2 @@
+# Automatically run autorandr when monitors are connected/disconnected
+ACTION=="change", SUBSYSTEM=="drm", RUN+="/home/tim/.local/bin/autorandr-udev"
