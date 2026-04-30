@@ -3,12 +3,14 @@ set -e
 
 usage() {
     cat <<EOF
-Usage: $0 [--check-deps] [--theming-setup] [--no-theming-setup] [--help]
+Usage: $0 [--dry-run] [--check-deps] [--theming-setup] [--no-theming-setup] [--help]
 
-Stows dotfiles via GNU Stow. Optionally seeds the matugen palette by
-running wallpaper.sh on a default wallpaper, and on GNOME hosts also
-installs adw-gtk3 + flips gsettings so GTK3 apps follow the palette.
+Symlinks dotfiles into \$HOME. Existing real files are moved to
+*.predotfiles.bak so the repo wins but live state is preserved.
+Optionally seeds the matugen palette and on GNOME installs adw-gtk3 +
+flips gsettings so GTK3 apps follow the palette.
 
+  --dry-run            Show what link_dotfiles would do; no mutation.
   --check-deps         List all dependencies with install status. No changes.
   --theming-setup      Run theming setup non-interactively.
   --no-theming-setup   Skip the theming prompt.
@@ -21,8 +23,7 @@ EOF
 # Match if any cmd is on PATH (logical OR).
 # Special label "theme:NAME" checks for GTK theme dir instead of command.
 DEPS=(
-    # core (install fails without these)
-    "stow|core|GNU Stow (apt: stow / pacman: stow)|stow"
+    # core
     "git|core||git"
     "zsh|core||zsh"
 
@@ -102,8 +103,10 @@ show_deps() {
 
 CHECK_DEPS=no
 THEMING_SETUP=auto
+DRY_RUN=no
 for arg in "$@"; do
     case "$arg" in
+        --dry-run)           DRY_RUN=yes ;;
         --check-deps)        CHECK_DEPS=yes ;;
         --theming-setup)     THEMING_SETUP=yes ;;
         --no-theming-setup)  THEMING_SETUP=no ;;
@@ -117,29 +120,81 @@ if [ "$CHECK_DEPS" = yes ]; then
     exit $?
 fi
 
-# ----- preflight: only stow is hard-required -----
-if ! command -v stow >/dev/null; then
-    echo "ERROR: GNU Stow not found. Install via:" >&2
-    echo "  apt install stow   # Debian/Ubuntu" >&2
-    echo "  pacman -S stow     # Arch/CachyOS" >&2
-    echo "  dnf install stow   # Fedora" >&2
-    exit 1
-fi
+# Linker is built-in (find + ln); no preflight needed.
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "$(dirname "$DIR")"
+# Manual symlinker. We don't use GNU Stow because:
+#   - target ($HOME) == stow dir ($HOME) for our layout — stow refuses;
+#   - even with an intermediate symlink dir, stow can't descend into
+#     existing real target dirs (.config/btop etc.) and bails.
+# Walk the repo, link each file individually. Target real files get
+# moved aside to *.predotfiles.bak so the repo wins but live state is
+# preserved for review.
+link_dotfiles() {
+    local dry="${1:-no}"
+    local src="$DIR" dst="$HOME"
+    local linked=0 backed_up=0 skipped=0 wrong_link=0 new=0
 
-stow -t "$HOME" --adopt \
-  --ignore='install\.sh' \
-  --ignore='README\.md' \
-  --ignore='\.gitignore' \
-  --ignore='\.stowrc' \
-  --ignore='DS_Store' \
-  --ignore='\.vim' \
-  --ignore='\.obsidian' \
-  --ignore='bitbucket\.log' \
-  --ignore='etc' \
-  "$(basename "$DIR")"
+    if [ "$dry" = yes ]; then
+        echo "==> DRY RUN — no changes will be made"
+    fi
+
+    while IFS= read -r file; do
+        local rel="${file#"$src"/}"
+        local target="$dst/$rel"
+
+        if [ -L "$target" ]; then
+            if [ "$(readlink "$target")" = "$file" ]; then
+                skipped=$((skipped+1))
+                continue
+            fi
+            wrong_link=$((wrong_link+1))
+            [ "$dry" = yes ] && echo "  RELINK   $rel"
+            if [ "$dry" = no ]; then
+                rm "$target"
+                ln -s "$file" "$target"
+            fi
+            linked=$((linked+1))
+        elif [ -e "$target" ]; then
+            backed_up=$((backed_up+1))
+            [ "$dry" = yes ] && echo "  BACKUP   $rel"
+            if [ "$dry" = no ]; then
+                mv "$target" "$target.predotfiles.bak"
+                ln -s "$file" "$target"
+            fi
+            linked=$((linked+1))
+        else
+            new=$((new+1))
+            [ "$dry" = yes ] && echo "  NEW      $rel"
+            if [ "$dry" = no ]; then
+                mkdir -p "$(dirname "$target")"
+                ln -s "$file" "$target"
+            fi
+            linked=$((linked+1))
+        fi
+    done < <(find "$src" \
+        -type d \( -name .git -o -name .vim -o -name .obsidian -o -name etc \) -prune \
+        -o -type f \
+        ! -name install.sh ! -name README.md ! -name .gitignore \
+        ! -name .stowrc ! -name '.DS_Store' ! -name 'bitbucket.log' \
+        -print)
+
+    echo
+    echo "==> Summary"
+    echo "    new links:        $new"
+    echo "    relinked:         $wrong_link"
+    echo "    already correct:  $skipped"
+    echo "    real files $([ "$dry" = yes ] && echo 'WOULD be' || echo '') backed up to *.predotfiles.bak: $backed_up"
+    if [ "$backed_up" -gt 0 ] && [ "$dry" = no ]; then
+        echo "    Review with: find \$HOME -name '*.predotfiles.bak'"
+    fi
+}
+
+if [ "$DRY_RUN" = yes ]; then
+    link_dotfiles yes
+    exit 0
+fi
+link_dotfiles no
 
 # --- Optional: GNOME GTK theming setup (adw-gtk3 + gsettings) ---
 adw_gtk3_already_installed() {
