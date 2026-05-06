@@ -1,0 +1,23 @@
+[user]
+	email = timothy@mahon.dev
+	name = Tim Mahon
+[core]
+	filemode = false
+	autocrlf = input
+	trustctime = false
+[push]
+	autoSetupRemote = true
+[init]
+	defaultBranch = main
+[rerere]
+	enabled = true
+[rebase]
+	updateRefs = true
+	committerDateIsAuthorDate = true
+[alias]
+	rebase-as-author = "\\!f() { git -c \"user.name=$(git log -1 --pretty=format:%an)\" -c \"user.email=$(git log -1 --pretty=format:%ae)\" rebase \"$@\"; }; f"
+	rebase-preserve = \\!git rebase \"$@\" --exec \"git commit --amend --reset-author --no-edit\"
+[include]
+	path = ~/.gitconfig.work
+[credential]
+	helper = "!f() { /home/vscode/.vscode-server/bin/10c8e557c8b9f9ed0a87f61f1c9a44bde731c409/node /tmp/vscode-remote-containers-19cfba9c-1b41-4617-bdc5-ef167d3c69d6.js git-credential-helper $*; }; f"

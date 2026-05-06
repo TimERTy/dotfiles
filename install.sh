@@ -77,16 +77,17 @@ show_deps() {
     for row in "${DEPS[@]}"; do
         IFS='|' read -r label cat hint cmds <<<"$row"
         if [ "$cat" != "$last_cat" ]; then
-            printf "\n== %s ==\n" "$cat"
+            # printf "\n== %s ==\n" "$cat"
             last_cat="$cat"
         fi
         local result; result=$(check_one "$label" "$hint" "$cmds") || true
         local status="${result%% *}"
         local detail="${result#* }"
         if [ "$status" = "OK" ]; then
-            printf "  [✓] %-22s %s\n" "$label" "$detail"
+            pwd
+            # printf "  [✓] %-22s %s\n" "$label" "$detail"
         else
-            printf "  [ ] %-22s %s\n" "$label" "$detail"
+            # printf "  [ ] %-22s %s\n" "$label" "$detail"
             missing_total=$((missing_total+1))
             [ "$cat" = "core" ] && missing_core=$((missing_core+1))
         fi
@@ -127,19 +128,10 @@ if ! command -v stow >/dev/null; then
 fi
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "$(dirname "$DIR")"
+cd "$DIR"
 
-stow -t "$HOME" --adopt \
-  --ignore='install\.sh' \
-  --ignore='README\.md' \
-  --ignore='\.gitignore' \
-  --ignore='\.stowrc' \
-  --ignore='DS_Store' \
-  --ignore='\.vim' \
-  --ignore='\.obsidian' \
-  --ignore='bitbucket\.log' \
-  --ignore='etc' \
-  "$(basename "$DIR")"
+stow -t "$HOME" --adopt home
+stow -t "$HOME" home
 
 # --- Optional: GNOME GTK theming setup (adw-gtk3 + gsettings) ---
 adw_gtk3_already_installed() {
@@ -247,12 +239,7 @@ theming_setup() {
 case "$THEMING_SETUP" in
     yes) theming_setup ;;
     no)  ;;
-    auto)
-        if [ -t 0 ]; then
-            read -rp "Set up theming (matugen palette$(is_gnome && echo " + GTK theme"))? [y/N] " ans
-            [[ "$ans" =~ ^[Yy]$ ]] && theming_setup
-        fi
-        ;;
+    auto) ;;
 esac
 
 # --- post-install dep summary (non-fatal) ---
