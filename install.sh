@@ -84,8 +84,7 @@ show_deps() {
         local status="${result%% *}"
         local detail="${result#* }"
         if [ "$status" = "OK" ]; then
-            pwd
-            # printf "  [✓] %-22s %s\n" "$label" "$detail"
+            printf "  [✓] %-22s %s\n" "$label" "$detail"
         else
             # printf "  [ ] %-22s %s\n" "$label" "$detail"
             missing_total=$((missing_total+1))

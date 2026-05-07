@@ -1,8 +1,0 @@
-#!/bin/bash
-# Force eDP-1 to 1920x1200 after any profile switch
-if xrandr | grep -q "^eDP-1 connected"; then
-    current=$(xrandr | grep "^eDP-1" | grep -oP '\d+x\d+\+')
-    if ! echo "$current" | grep -q "1920x1200"; then
-        xrandr --output eDP-1 --mode 1920x1200
-    fi
-fi
