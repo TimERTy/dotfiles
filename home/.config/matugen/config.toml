@@ -1,0 +1,85 @@
+[config]
+
+[config.custom_colors.red]
+color = "#EF4444"
+blend = true
+
+[config.custom_colors.green]
+color = "#22C55E"
+blend = true
+
+[config.custom_colors.yellow]
+color = "#EAB308"
+blend = true
+
+[config.custom_colors.blue]
+color = "#3B82F6"
+blend = true
+
+[config.custom_colors.magenta]
+color = "#A855F7"
+blend = true
+
+[config.custom_colors.cyan]
+color = "#06B6D4"
+blend = true
+
+[templates.kitty]
+input_path = '~/.config/matugen/templates/kitty-colors.conf'
+output_path = '~/.config/kitty/colors-matugen.conf'
+post_hook = 'pkill -SIGUSR1 kitty'
+
+[templates.ghostty]
+input_path = '~/.config/matugen/templates/ghostty-colors.conf'
+output_path = '~/.config/ghostty/colors-matugen'
+post_hook = 'pkill -SIGUSR2 -f ghostty'
+
+[templates.btop]
+input_path = '~/.config/matugen/templates/btop.theme'
+output_path = '~/.config/btop/themes/matugen.theme'
+post_hook = 'pkill -USR2 btop'
+
+[templates.hyprland]
+input_path = '~/.config/matugen/templates/hyprland-colors.conf'
+output_path = '~/.config/hypr/colors.conf'
+post_hook = 'command -v hyprctl >/dev/null && hyprctl reload || true'
+
+[templates.waybar]
+input_path = '~/.config/matugen/templates/colors.css'
+output_path = '~/.config/waybar/colors.css'
+post_hook = '[ -x ~/.config/waybar/launch.sh ] && ~/.config/waybar/launch.sh || true'
+
+[templates.rofi]
+input_path = '~/.config/matugen/templates/rofi-colors.rasi'
+output_path = '~/.config/rofi/colors.rasi'
+
+[templates.gtk3]
+input_path = '~/.config/matugen/templates/gtk-colors.css'
+output_path = '~/.config/gtk-3.0/colors.css'
+
+[templates.gtk4]
+input_path = '~/.config/matugen/templates/gtk-colors.css'
+output_path = '~/.config/gtk-4.0/colors.css'
+
+[templates.wlogout]
+input_path = '~/.config/matugen/templates/colors.css'
+output_path = '~/.config/wlogout/colors.css'
+
+[templates.swaync]
+input_path = '~/.config/matugen/templates/colors.css'
+output_path = '~/.config/swaync/colors.css'
+
+[templates.vscode]
+input_path = '~/.config/matugen/templates/vscode-colors.json'
+output_path = '~/.cache/matugen/vscode-colors.json'
+post_hook = 'jq -s ".[0] * .[1]" ~/.config/Code/User/settings.json ~/.cache/matugen/vscode-colors.json > ~/.cache/matugen/vscode-merged.json && cp ~/.cache/matugen/vscode-merged.json ~/repos/dotfiles/home/.config/Code/User/settings.json'
+
+[templates.tiling-assistant]
+input_path = '~/.config/matugen/templates/tiling-assistant.txt'
+output_path = '~/.cache/matugen/tiling-assistant-color.txt'
+post_hook = 'hex=$(cat ~/.cache/matugen/tiling-assistant-color.txt | tr -d "#\n "); r=$((16#${hex:0:2})); g=$((16#${hex:2:2})); b=$((16#${hex:4:2})); gsettings set org.gnome.shell.extensions.tiling-assistant active-window-hint-color "rgb($r,$g,$b)"'
+
+[templates.ubuntu-accent]
+input_path = '~/.config/matugen/templates/ubuntu-accent.txt'
+output_path = '~/.cache/matugen/ubuntu-accent.txt'
+post_hook = 'sh ~/.local/bin/update-shell-accent'

@@ -78,7 +78,7 @@ show_deps() {
     for row in "${DEPS[@]}"; do
         IFS='|' read -r label cat hint cmds <<<"$row"
         if [ "$cat" != "$last_cat" ]; then
-            printf "\n== %s ==\n" "$cat"
+            # printf "\n== %s ==\n" "$cat"
             last_cat="$cat"
         fi
         local result; result=$(check_one "$label" "$hint" "$cmds") || true
@@ -87,7 +87,7 @@ show_deps() {
         if [ "$status" = "OK" ]; then
             printf "  [✓] %-22s %s\n" "$label" "$detail"
         else
-            printf "  [ ] %-22s %s\n" "$label" "$detail"
+            # printf "  [ ] %-22s %s\n" "$label" "$detail"
             missing_total=$((missing_total+1))
             [ "$cat" = "core" ] && missing_core=$((missing_core+1))
         fi
@@ -132,7 +132,7 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 # preserved for review.
 link_dotfiles() {
     local dry="${1:-no}"
-    local src="$DIR" dst="$HOME"
+    local src="$DIR/home" dst="$HOME"
     local linked=0 backed_up=0 skipped=0 wrong_link=0 new=0
 
     if [ "$dry" = yes ]; then
@@ -302,12 +302,7 @@ theming_setup() {
 case "$THEMING_SETUP" in
     yes) theming_setup ;;
     no)  ;;
-    auto)
-        if [ -t 0 ]; then
-            read -rp "Set up theming (matugen palette$(is_gnome && echo " + GTK theme"))? [y/N] " ans
-            [[ "$ans" =~ ^[Yy]$ ]] && theming_setup
-        fi
-        ;;
+    auto) ;;
 esac
 
 # --- post-install dep summary (non-fatal) ---

@@ -1,0 +1,20 @@
+{
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "files.candidateGuessEncodings": [
+    "utf8"
+  ],
+  "vssolution.lineEndings": "crlf",
+  "git.requireGitUserConfig": false,
+  "remote.autoForwardPortsSource": "hybrid",
+  "chat.agent.enabled": false,
+  "chat.disableAIFeatures": true,
+  "extensions.ignoreRecommendations": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "cSpell.userWords": [
+    "Xunit"
+  ],
+  "explorer.confirmDelete": false,
+  "snyk.yesWelcomeNotification": false,
+  "claudeCode.preferredLocation": "panel",
+  "continue.showInlineTip": false
+}

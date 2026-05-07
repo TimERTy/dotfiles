@@ -1,0 +1,55 @@
+#!/bin/bash
+COLOR_FILE="$HOME/.cache/matugen/ubuntu-accent.txt"
+THEME_BASE="$HOME/.local/share/themes/Matugen"
+THEME_DIR="$THEME_BASE/gnome-shell"
+SOURCE_DIR="/usr/share/gnome-shell/theme/Yaru-dark"
+
+[ -f "$COLOR_FILE" ] || exit 0
+[ -d "$SOURCE_DIR" ] || exit 0
+
+PRIMARY=$(sed -n '1p' "$COLOR_FILE" | tr -d '# \n')
+LIGHT=$(sed -n '2p' "$COLOR_FILE" | tr -d '# \n')
+
+[ -n "$PRIMARY" ] || exit 0
+[ -n "$LIGHT" ] || exit 0
+
+# Derive a dark shade from primary (halve each channel)
+r=$((16#${PRIMARY:0:2} / 2))
+g=$((16#${PRIMARY:2:2} / 2))
+b=$((16#${PRIMARY:4:2} / 2))
+DARK=$(printf '%02x%02x%02x' "$r" "$g" "$b")
+
+mkdir -p "$THEME_DIR"
+cp "$SOURCE_DIR"/* "$THEME_DIR/" 2>/dev/null
+
+sed -i \
+    -e "s/#d34615/#${PRIMARY}/gi" \
+    -e "s/#ef8661/#${LIGHT}/gi" \
+    -e "s/#ef845f/#${LIGHT}/gi" \
+    -e "s/#E95420/#${PRIMARY}/gi" \
+    -e "s/#e95420/#${PRIMARY}/gi" \
+    -e "s/#e95c2a/#${PRIMARY}/gi" \
+    -e "s/#e54c17/#${PRIMARY}/gi" \
+    -e "s/#e64c17/#${PRIMARY}/gi" \
+    -e "s/#c54113/#${PRIMARY}/gi" \
+    -e "s/#8d2f0e/#${DARK}/gi" \
+    -e "s/#481807/#${DARK}/gi" \
+    "$THEME_DIR/gnome-shell.css"
+
+cat > "$THEME_BASE/index.theme" << EOF
+[Desktop Entry]
+Name=Matugen
+Type=X-GNOME-Metatheme
+Comment=Dynamic accent from matugen
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=adw-gtk3-dark
+MetacityTheme=Matugen
+IconTheme=Yaru-sage
+EOF
+
+if command -v gsettings >/dev/null 2>&1; then
+    gsettings set org.gnome.shell.extensions.user-theme name 'Matugen' 2>/dev/null || \
+        dconf write /org/gnome/shell/extensions/user-theme/name "'Matugen'"
+fi
