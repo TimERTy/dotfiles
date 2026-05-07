@@ -1,19 +1,19 @@
-.vim/*
-.vim/.netrwhist
-!.vim/autoload/*
-!.vim/templates/*
+home/.vim/*
+home/.vim/.netrwhist
+!home/.vim/autoload/*
+!home/.vim/templates/*
 
 *.png
 *.jpg
 
 # matugen-generated theme files
-.config/kitty/colors-matugen.conf
-.config/ghostty/colors-matugen
-.config/btop/themes/matugen.theme
-.config/hypr/colors.conf
-.config/waybar/colors.css
-.config/rofi/colors.rasi
-.config/gtk-3.0/colors.css
-.config/gtk-4.0/colors.css
-.config/wlogout/colors.css
-.config/swaync/colors.css
+home/.config/kitty/colors-matugen.conf
+home/.config/ghostty/colors-matugen
+home/.config/btop/themes/matugen.theme
+home/.config/hypr/colors.conf
+home/.config/waybar/colors.css
+home/.config/rofi/colors.rasi
+home/.config/gtk-3.0/colors.css
+home/.config/gtk-4.0/colors.css
+home/.config/wlogout/colors.css
+home/.config/swaync/colors.css

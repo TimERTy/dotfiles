@@ -72,7 +72,7 @@ output_path = '~/.config/swaync/colors.css'
 [templates.vscode]
 input_path = '~/.config/matugen/templates/vscode-colors.json'
 output_path = '~/.cache/matugen/vscode-colors.json'
-post_hook = 'jq -s ".[0] * .[1]" ~/.config/Code/User/settings.json ~/.cache/matugen/vscode-colors.json > ~/.cache/matugen/vscode-merged.json && cp ~/.cache/matugen/vscode-merged.json ~/repos/dotfiles/home/.config/Code/User/settings.json'
+post_hook = 'jq -s ".[0] * .[1]" ~/.config/Code/User/settings.json ~/.cache/matugen/vscode-colors.json > ~/.cache/matugen/vscode-merged.json && cp ~/.cache/matugen/vscode-merged.json ~/dotfiles/home/.config/Code/User/settings.json'
 
 [templates.tiling-assistant]
 input_path = '~/.config/matugen/templates/tiling-assistant.txt'
