@@ -84,4 +84,7 @@ if [ -f ~/.sh_aliases ]; then
     . ~/.sh_aliases
 fi
 
-. "$HOME/.local/bin/env"
+if [ -f "$HOME/.local/bin/env" ]; then
+    . "$HOME/.local/bin/env"
+fi
+
