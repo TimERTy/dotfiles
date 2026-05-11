@@ -8,6 +8,8 @@ export PATH="$HOME/.dotnet:$PATH"
 
 export TZ="Australia/Brisbane"
 
+export GPG_TTY=$(tty)
+
 . "$HOME/.local/bin/env"
 
 [ -f ~/.shrc.work ] && . ~/.shrc.work
