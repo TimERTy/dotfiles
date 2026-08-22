@@ -1,1 +1,2 @@
-config-file = colors-matugen
+font-family = "JetBrains Mono"
+font-size = 16

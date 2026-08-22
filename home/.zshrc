@@ -75,6 +75,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+command -v mise &> /dev/null && eval "$(mise activate zsh)"
 
 if [ -f ~/.shrc ]; then
     . ~/.shrc
@@ -84,8 +85,8 @@ if [ -f ~/.sh_aliases ]; then
     . ~/.sh_aliases
 fi
 
-if ! command -v claude &> /dev/null; then
-  curl -fsSL https://claude.ai/install.sh | bash
+if ! command -v pi &> /dev/null; then
+  curl -fsSL https://pi.dev/install.sh | sh
 fi
 
 if [ -f "$HOME/.local/bin/env" ]; then
